@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, HttpUrl
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
@@ -9,6 +10,15 @@ import uvicorn
 from typing import Optional
 
 app = FastAPI(title="YouTube Downloader API")
+
+# Enable CORS for all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Create a downloads directory if it doesn't exist
 DOWNLOAD_DIR = "downloads"
